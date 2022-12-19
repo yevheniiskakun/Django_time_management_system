@@ -1,3 +1,3 @@
 # Django_time_management_system
 
-System do zarządzania pracą użytkowników
+System do zarządzania czasem pracy pracowników
