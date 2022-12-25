@@ -1,0 +1,70 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+<div class="spinner-border text-light" role="status" style="display:none;" id="spinner_card">
+  <span class="sr-only">Loading...</span>
+</div>
+        <div class="row">
+          <div class="col-6">
+            {% for shift in shifts %}
+               <div class="card w-100 mt-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">{{ shift.shift_start_time|time:"H:i" }} -
+                        {{ shift.shift_end_time|time:"H:i" }}</h5>
+                         <a href="{% url 'users:employee_schedule' shift.id %}" class="btn btn-primary">See all Employees with this Shift</a>
+                    </div>
+               </div>
+            {% endfor %}
+          </div>
+          <div class="col-4 mt-8">
+              <div class="row">
+                <div class="col-6">
+                  <h4 class="lead-7 text-right" data-provide="countup" data-from="0" data-to="{{ employees|length }}"></h4>
+                </div>
+                <div class="col-6">
+                  <p class="small text-uppercase ls-2 mb-2">Employees in Database</p>
+              </div>
+          </div>
+          <div class="col-12 mt-3">
+              <div class="row">
+                <div class="col-6">
+                  <h4 class="lead-7 text-right" data-provide="countup" data-from="0" data-to="{{ schedules|length }}"></h4>
+                </div>
+                <div class="col-6">
+                  <p class="small text-uppercase ls-2 mb-2">Schedules in Database</p>
+              </div>
+          </div>
+          <div class="col-12 mt-3">
+              <div class="row">
+                <div class="col-6">
+                  <h4 class="lead-7 text-right" data-provide="countup" data-from="0" data-to="{{ shifts|length }}"></h4>
+                </div>
+                <div class="col-6">
+                  <p class="small text-uppercase ls-2 mb-2">Shifts in Database</p>
+              </div>
+          </div>
+          <div class="col-12 mt-3">
+              <div class="row">
+                <div class="col-6">
+                  <h4 class="lead-7 text-right" data-provide="countup" data-from="0" data-to="{{ transactions }}"></h4>
+                </div>
+                <div class="col-6">
+                  <p class="small text-uppercase ls-2 mb-2">Raports processed</p>
+              </div>
+          </div>
+
+
+        </div>
+
+        </div>
+          </div>
+          </div></div>
+
+
+{% endblock %}

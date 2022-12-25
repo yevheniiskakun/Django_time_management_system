@@ -1,0 +1,40 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta_tags %}
+    <title>Schedules</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="" id="schedule_card">
+    <div>
+        <div class="card">
+          <h5 class="card-header">Add new schedule</h5>
+            <div class="card-body" >
+                <form action="" method="post">
+                      {% csrf_token %}
+                      {{ scheduleform|crispy }}
+                <button type="submit" class="btn btn-primary mt-2">Add</button>
+                </form>
+            </div>
+        </div>
+    {% for schedule in schedules %}
+        <div class="card mt-6 mb-4">
+          <h5 class="card-header">{{ schedule.schedule_start_date }} {{ schedule.schedule_end_date }} </h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ schedule.shift_id }}</h5>
+            <p class="card-text">{{ schedule.employee_id }}</p>
+
+            <a href="{% url 'users:employee_schedule' schedule.shift_id.id %}" class="btn btn-primary">See all Employees</a>
+            <a href="{% url 'users:delete_schedule' schedule.id %}" class="btn btn-danger ml-2">Delete</a>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}

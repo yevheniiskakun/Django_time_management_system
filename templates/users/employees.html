@@ -1,0 +1,45 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta_tags %}
+    <title>Employees</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="" id="employee_card">
+    <div>
+        <div class="card">
+          <h5 class="card-header">Add new employee</h5>
+            <div class="card-body" >
+                <form action="" method="post">
+                     {% csrf_token %}
+                     {{ employee_form|crispy }}
+                <button type="submit" class="btn btn-primary mt-2">Add</button>
+                </form>
+            </div>
+        </div>
+    {% for employee in employees %}
+        <div class="card mt-6 mb-4">
+          <h5 class="card-header">{{ employee }} </h5>
+          <div class="card-body">
+            <a href="{% url 'users:user_show_all_info' employee.id %}" class="btn btn-primary">Show all info</a>
+            <a href="#" onclick="ShowConfirmation(confirm_delete{{ employee.id }});return false;" class="btn btn-danger ml-2" id="confirm_delete_button">Delete</a>
+            <div id="confirm_delete{{ employee.id }}" style="display:none;">
+                <div>Do you want to delete this Employee?</div>
+                <a href="{% url 'users:delete_employee' employee.id %}" class="btn btn-danger ml-2 mt-2">Yes</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<script>
+    function ShowConfirmation(element){
+        document.getElementById(element.id).style.display = "block";
+    }
+</script>
+{% endblock %}

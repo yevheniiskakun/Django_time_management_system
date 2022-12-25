@@ -1,0 +1,71 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta_tags %}
+		 <title>{% if transactions == 1 and employee == 1%} User was deleted {% else %} {{ employee }} {% endif %}</title>
+{% endblock %}
+
+{% block content %}
+
+{% if transactions == 1 and employee == 1%}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="h4">
+                Can not find any report for employee with chosen EmployeeID.
+            </p>
+            <p class="h4">
+                Please check if this <a href="{% url 'users:employees' %}">employee</a> exist
+            </p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card mt-6 mb-4">
+    <h5 class="card-header">Filters</h5>
+    <div class="card-body">
+        <form action="{% url 'users:user_report' employee.employee_PESEL %}" method="post">
+            {% csrf_token %}
+          <div class="form-group">
+            <input type="date" id="date_from" name="date_from" class="form-control w-20">
+            <input type="date" id="date_to" name="date_to" class="form-control w-20 mt-1">
+          </div>
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="" id="raport_card">
+    {% for transaction in transactions %}
+    <div class="card mt-6 mb-4">
+          <h5 class="card-header">Transaction with id: {{ transaction.transaction_id }}</h5>
+          <div class="card-body">
+              <div class="card-text" style="font-size: 17px;">
+                Employee :  <b>{{ employee }}</b>
+              </div>
+              <div class="card-text">
+                  {{ transaction.transaction_date }}
+              </div>
+              <div class="card-text" style="font-size: 17px;">{{ transaction.time_in|time:"H:i" }} - {{ transaction.time_out|time:"H:i" }}</div>
+              <div class="card-text">
+                  <b>Working time: {{ transaction.working_time|time:"H:i" }}</b>
+              </div>
+                {% if transaction.late_arrival == True or transaction.late_leaving == True %}
+                    <div class="card-text" style="font-size: 17px;">Notes:</div>
+			   			{% if transaction.late_arrival == True %}
+                            <div class="card-text" style="color:#DB8E50FF;">Late or early arrival</div>
+                        {% endif %}
+                        {% if transaction.late_leaving == True %}
+                            <div class="card-text" style="color:#DB8E50FF;">Late or early leaving</div>
+                        {% endif %}
+                {% endif %}
+
+          </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+{% endblock %}

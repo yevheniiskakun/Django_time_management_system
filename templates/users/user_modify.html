@@ -1,0 +1,58 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta_tags %}
+		 <title>{{ user.first_name }} {{ user.last_name }}</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+.user_modify_form{
+    border: solid #414344 1px;
+    padding: 2%;
+    border-radius: 10px;
+}
+#first_name, #last_name, #email, #employee_pesel, #employee_join_date, #employee_end_date{
+    border: none;
+    border-bottom: 1px solid #414344;
+    color: grey;
+    font-size: 20px;
+    width: 300px;
+    outline: none;
+}
+
+</style>
+
+
+<h4 class="text-center mt-4 font-weight-normal">Edit Employee</h4>
+<div id="user_modify_form" class="user_modify_form">
+    <form action="" method="post" style="color:white;">
+        {% csrf_token %}
+        <input type="first_name" id="first_name" name="first_name" value="{{ user.first_name }}"><br>
+        <input type="last_name" id="last_name" name="last_name" value="{{ user.last_name }}"> <br>
+        <input type="email" id="email" name="email" value="{{ user.email }}"> <br>
+        <input type="employee_pesel" id="employee_pesel" name="employee_pesel" value="{{ employee.employee_PESEL }}"> <br>
+        <input type="text" id="employee_join_date" name="employee_join_date" value="{{ employee.employment_join_date }}" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"> <br>
+        <input type="text" id="employee_end_date" name="employee_end_date" value="{{ employee.employment_end_date }}" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"> <br>
+            <button type="submit" class="btn btn-success mt-2">Save</button>
+            <a href="{% url 'users:employees' %}" class="btn btn-primary ml-2 mt-2">Cancel</a>
+            <a href="#" onclick="ShowConfirmation(confirm_delete{{ employee.id }});return false;" class="btn btn-danger ml-2 mt-2" id="confirm_delete_button">Delete</a>
+            <div id="confirm_delete{{ employee.id }}" style="display:none;">
+                <div>Do you want to delete this Employee?</div>
+                <a href="{% url 'users:delete_employee' employee.id %}" class="btn btn-danger ml-2 mt-2">Yes</a>
+            </div>
+    </form>
+</div>
+
+<script>
+    function ShowConfirmation(element){
+        document.getElementById(element.id).style.display = "block";
+    }
+</script>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

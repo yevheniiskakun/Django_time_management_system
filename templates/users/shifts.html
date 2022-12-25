@@ -1,0 +1,39 @@
+{% extends "users/base_dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta_tags %}
+    <title>Shifts</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="" id="shift_card">
+    <div>
+        <div class="card w-50">
+          <h5 class="card-header">Add new shift</h5>
+            <div class="card-body" >
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ shiftform|crispy }}
+                <button type="submit" class="btn btn-primary mt-2">Add</button>
+                </form>
+            </div>
+        </div>
+    {% for shift in shifts %}
+       <div class="card w-50 mt-6 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ shift.shift_start_time|time:"H:i" }} -
+                {{ shift.shift_end_time|time:"H:i" }}</h5>
+
+                <a href="{% url 'users:delete_shift' shift.id %}" class="btn btn-danger">Delete</a>
+
+            </div>
+       </div>
+    {% endfor %}
+
+
+    </div>
+</div>
+
+{% endblock %}

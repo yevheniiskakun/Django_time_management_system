@@ -1,0 +1,31 @@
+{% extends "pages/base_index.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block meta_tags %}
+<title>Log-in</title>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="flex my-12">
+<h1 style="text-align: center;">Log in</h1>
+<form class="col-lg-6 offset-lg-5 " action="{% url 'pages:home' %}" method="post">
+   {% csrf_token %}
+    <div class="">
+    {{ form|crispy }}
+    </div>
+    <div class="form-actions mx-auto">
+        <input type="submit" value="Login" class="btn btn-primary mt-2">
+    </div>
+ </form>
+</div>
+
+{% endblock %}
+
